@@ -1,0 +1,97 @@
+# Event sources.
+#
+# Adding a new event is a block in this file, not new code. Adding a new
+# *kind* of directory is a new adapter in src/sources/. That split is the
+# scalability claim, and it holds because two of the biggest shows in this
+# industry happen to run on the same platform.
+#
+# `directory_url` was checked by hand. Aggregator sites disagree with
+# organizers constantly (SGI Dubai has four different published date ranges
+# across four listing sites), so nothing in here comes from an aggregator.
+
+adapters:
+  # MapYourShow powers several hundred North American trade shows. One
+  # adapter, many events. This is why the US spine was worth keeping even
+  # after deciding to lead with India.
+  mapyourshow:
+    rate_limit_per_sec: 2
+    respect_robots: true
+  # Messe Frankfurt runs a standard exhibitor-search across its fairs
+  # worldwide. In principle the same property as MapYourShow; in practice
+  # their search is rendered client-side, so this adapter currently reports
+  # a coverage gap rather than data. Left wired up because the platform is
+  # the right unit of work and the gap is worth surfacing.
+  messe_frankfurt:
+    rate_limit_per_sec: 2
+    respect_robots: true
+  # Anything else. Slower and less reliable, used per-event.
+  html_list:
+    rate_limit_per_sec: 1
+    respect_robots: true
+
+events:
+  - slug: isa-sign-expo-2026
+    name: ISA International Sign Expo 2026
+    organizer: International Sign Association
+    region: north_america
+    city: Orlando
+    country: US
+    starts_on: 2026-04-08
+    ends_on: 2026-04-10
+    adapter: mapyourshow
+    directory_url: https://isasignexpo2026.mapyourshow.com/8_0/explore/exhibitor-gallery.cfm
+    host: isasignexpo2026.mapyourshow.com
+    # Past show. Exhibiting here is evidence of engagement, not a trigger.
+    weight_note: engagement_signal
+    # Returns nothing as of Aug 2026: the print export appears to be retired
+    # once a show closes. Kept in the config so the coverage report names
+    # the gap rather than the event silently disappearing.
+
+  - slug: printing-united-2026
+    name: PRINTING United Expo 2026
+    organizer: PRINTING United Alliance
+    region: north_america
+    city: Las Vegas
+    country: US
+    starts_on: 2026-09-23
+    ends_on: 2026-09-25
+    adapter: mapyourshow
+    directory_url: https://pru26.mapyourshow.com/8_0/explore/exhibitor-gallery.cfm
+    host: pru26.mapyourshow.com
+    # Upcoming. This is an outreach hook the message can name directly.
+    weight_note: outreach_trigger
+
+  - slug: media-expo-delhi-2026
+    name: Media Expo New Delhi 2026
+    organizer: Messe Frankfurt India
+    region: south_asia
+    city: New Delhi
+    country: IN
+    starts_on: 2026-09-17
+    ends_on: 2026-09-19
+    adapter: messe_frankfurt
+    directory_url: https://media-expo-newdelhi.in.messefrankfurt.com/newdelhi/en/exhibitor-search.html
+    weight_note: outreach_trigger
+
+  - slug: media-expo-mumbai-2027
+    name: Media Expo Mumbai 2027
+    organizer: Messe Frankfurt India
+    region: south_asia
+    city: Mumbai
+    country: IN
+    starts_on: 2027-04-08
+    ends_on: 2027-04-10
+    adapter: messe_frankfurt
+    directory_url: https://media-expo-mumbai.in.messefrankfurt.com/mumbai/en/exhibitor-search.html
+    weight_note: outreach_trigger
+
+  - slug: sign-india-2026
+    name: Sign India 2026
+    organizer: BusinessLive Trade Fairs
+    region: south_asia
+    country: IN
+    adapter: html_list
+    directory_url: https://www.signindiaexpo.com/
+    # Dates not published on the organizer site at time of writing. The
+    # pipeline records the gap rather than filling it from an aggregator.
+    weight_note: engagement_signal

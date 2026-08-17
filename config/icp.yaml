@@ -1,0 +1,227 @@
+# Ideal Customer Profile and qualification rubric for DuPont Tedlar,
+# Graphics & Signage.
+#
+# The case brief never defines the ICP. It gives one example company
+# (Avery Dennison Graphics Solutions) and five reasons that company
+# qualifies. This file is the ICP reverse-engineered from that example
+# plus what Tedlar is as a product, and it is deliberately config rather
+# than code so a Tedlar rep could argue with the weights without touching
+# Python.
+#
+# Change the weights here, rerun, and the ranking changes. That is the
+# whole point.
+
+customer: dupont_tedlar_graphics_signage
+
+# What the product actually is, in the terms that matter for targeting.
+product:
+  name: Tedlar PVF film
+  role: protective overlaminate applied over printed graphics
+  sells_on:
+    - UV and weathering resistance
+    - chemical and graffiti resistance
+    - long outdoor service life
+    - dimensional stability under heat and humidity
+  applications:
+    - fleet and vehicle wraps
+    - outdoor and roadside signage
+    - architectural and wall graphics
+    - awnings and tensile structures
+
+# Who buys it. Note this is manufacturers and converters, not sign shops
+# and not distributors. Tedlar is sold into a product, not sold as a
+# finished good, so resellers are the wrong pond regardless of how well
+# they match on other dimensions.
+ideal_customer:
+  makes:
+    - pressure-sensitive films and laminates
+    - large-format print media
+    - vehicle wrap and fleet graphic materials
+    - architectural graphic films
+    - awning and outdoor fabric
+  does_not_make:
+    - LED and digital display hardware
+    - printers, cutters, routers, and other capital equipment
+    - software and workflow tools
+    - installation and fabrication services only
+
+# Hard filters. These run before scoring. A company that trips one of
+# these is disqualified with a reason rather than scored low, because
+# "wrong industry" and "right industry but small" are different answers
+# and a rep should be able to tell them apart.
+disqualifiers:
+  - id: equipment_only
+    test: company makes only hardware or software, no films or media
+    reason: no product surface for a protective film
+  - id: pure_distributor
+    test: company resells other manufacturers' products with no own line
+    reason: buys finished goods, does not specify raw materials
+  - id: too_small
+    test: fewer than 25 employees and no published revenue
+    reason: below the volume threshold for a specified material
+
+# The rubric. Five dimensions lifted from the five reasons the brief
+# gives for Avery Dennison, plus one addition of our own.
+#
+# Weights are relative, they do not need to sum to 100. The score is
+# normalized against whatever they add up to.
+rubric:
+  - name: industry_fit
+    weight: 30
+    question: >
+      Does this company manufacture or convert something that a protective
+      overlaminate would be applied to?
+    scale:
+      1.0: core business is durable graphic films or outdoor media
+      0.7: makes graphic media among a broader materials portfolio
+      0.4: adjacent materials, plausible but not obvious overlap
+      0.0: no product surface a film would go on
+
+  - name: size_and_revenue
+    weight: 20
+    question: Is this company large enough to buy a specified material at volume?
+    scale:
+      1.0: over $1B revenue or 5000+ employees
+      0.7: $100M to $1B
+      0.4: $10M to $100M
+      0.1: under $10M or size unknown
+
+  - name: strategic_relevance
+    weight: 20
+    question: >
+      Do their stated applications overlap with what Tedlar protects, and
+      would durability be a competitive lever for them?
+    scale:
+      1.0: outdoor durability is an explicit selling point of their line
+      0.6: they serve outdoor applications without leading on durability
+      0.3: mostly indoor or short-life applications
+      0.0: no outdoor exposure in their product line
+
+  # This one is ours, not the brief's. Tedlar only wins where cheaper
+  # laminates fail, so the environment a company's products live in is a
+  # real predictor of willingness to pay. It is also the dimension that
+  # makes the multi-region sourcing do visible work.
+  - name: environmental_severity
+    weight: 15
+    question: >
+      How harsh are the conditions in the markets this company serves?
+    scale:
+      1.0: extreme UV plus heat, humidity, or abrasive dust
+      0.7: high UV or high humidity
+      0.4: temperate with meaningful outdoor exposure
+      0.1: mild climate or indoor-dominant markets
+
+  - name: industry_engagement
+    weight: 10
+    question: How actively do they show up where Tedlar's team can reach them?
+    scale:
+      1.0: exhibits at multiple relevant shows and holds association roles
+      0.7: exhibits at multiple relevant shows
+      0.4: exhibits at one
+      0.1: no public presence found
+
+  - name: market_activity
+    weight: 5
+    question: >
+      Recent moves suggesting they are investing in durable or
+      weather-resistant products right now.
+    scale:
+      1.0: launched or announced a durable outdoor product in the last year
+      0.6: expanded capacity or entered a new outdoor segment
+      0.3: general growth activity, nothing durability-specific
+      0.0: nothing found
+
+# The second axis. Fit asks "should we want them." Leverage asks "can we
+# actually win them." A perfect-fit account that 3M locked up four years
+# ago and a decent-fit account with no protective film partner at all are
+# not the same lead, and collapsing them into one number hides that.
+#
+# Confidence matters more here than on the fit rubric. Absence of a named
+# incumbent is weak evidence, not proof, because plenty of companies never
+# publish their supplier relationships. Every leverage component carries
+# its confidence forward and the dashboard shows it.
+leverage:
+  - name: incumbent_absence
+    weight: 30
+    question: >
+      Do their own product pages name a protective film or overlaminate
+      partner?
+    scale:
+      1.0: durable line published, no film partner named anywhere
+      0.5: nothing found either way, thin public product detail
+      0.2: a competing film is named on a secondary product
+      0.0: a competing film is named on their flagship durable line
+    default_confidence: 0.5   # this one is inference-heavy by nature
+
+  - name: durability_gap
+    weight: 30
+    question: >
+      Do their published outdoor-life or warranty claims fall short of what
+      a premium protective film would let them advertise?
+    scale:
+      1.0: claims 5 years or less on outdoor products
+      0.7: claims 6 to 8 years
+      0.3: claims 9 to 12 years
+      0.0: already claiming 12+ years, likely already using a premium film
+    default_confidence: 0.9   # published spec sheets, high trust
+
+  - name: active_shopping
+    weight: 25
+    question: Are there signs they are sourcing materials right now?
+    scale:
+      1.0: announced a new outdoor or durable line in the last 6 months
+      0.7: hiring materials, R&D, or coatings roles
+      0.4: capacity expansion or new plant announced
+      0.0: nothing found
+    default_confidence: 0.8
+
+  - name: territory_whitespace
+    weight: 15
+    question: >
+      How established is DuPont's presence in this company's home market?
+    scale:
+      1.0: market where a global materials supplier has thin coverage
+      0.5: mixed or growing presence
+      0.1: mature market with established distribution
+    default_confidence: 0.7
+
+# Where a lead lands on the two axes decides the sales motion, and the
+# outreach agent writes a different kind of message for each. This is the
+# main reason the second axis is worth the complexity.
+quadrants:
+  call_now:
+    fit_min: 60
+    leverage_min: 60
+    motion: direct outreach naming the specific gap we found
+  displacement:
+    fit_min: 60
+    leverage_max: 60
+    motion: long-horizon note, lead with technical differentiation not urgency
+  low_priority:
+    fit_max: 60
+    leverage_min: 60
+    motion: nurture only, no rep time
+  ignore:
+    fit_max: 60
+    leverage_max: 60
+    motion: none
+
+# Tier cuts line up with the quadrant floors above on purpose. An earlier
+# version had B at 45 while the quadrants used 60, which produced rows
+# reading "tier B, quadrant ignore" and gave a rep two answers to the same
+# question.
+tiers:
+  A: 70   # rep should call this week
+  B: 60   # worth a sequence
+  # anything below B is C, kept in the dataset but not surfaced by default
+
+# Titles worth finding, in priority order. The stakeholder agent walks
+# this list and stops at the first match it can source.
+target_roles:
+  - VP Product Development
+  - Director of Innovation
+  - Director of R&D
+  - Head of Materials
+  - Technical Director
+  - Category Manager, Graphics
+  - VP Engineering
