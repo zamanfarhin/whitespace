@@ -20,7 +20,17 @@ Built as a technical case study. DuPont Tedlar is the test customer.
 | Named decision makers found, on public pages | 12 of 26 qualified |
 | Outreach drafts written and verified | 26 |
 | Total API cost | about $11 |
+| **Cost per qualified lead, researched and drafted** | **$0.42** |
 | Cost of a full rerun | $0, served from cache |
+
+Researching one company by hand, checking fit, finding the decision maker,
+and writing a personalized note is 30 to 45 minutes of an SDR's day. Twenty
+six of them is roughly two working days.
+
+This does not replace that person. It does the research and the first
+draft, and hands over a queue with the evidence attached, so the time goes
+into judgement and conversation rather than tab-switching. Every draft is
+editable and nothing sends itself.
 
 ## Why it is built this way
 
@@ -41,6 +51,13 @@ gets a number that feels right and cannot be defended.
 **Nothing enters the dataset without a source.** Every field carries a URL,
 a timestamp, and a confidence. A value the model produced without a URL is
 dropped, not downgraded. That is what makes the outreach check possible.
+
+**The signal decides the first sentence.** The leverage evidence is not just
+a number. ORAFOL's note opens by saying no protective film partner appears
+in their public materials. Quality Media's opens on their published 12-year
+wrap rating and where that curve actually bends. 3M's closes with no ask at
+all. None of it is templated, and every claim links to a source a rep can
+click.
 
 **Two axes, not one.** Fit asks whether Tedlar should want a company.
 Leverage asks whether they can win it. 3M Commercial Graphics scores 94 on

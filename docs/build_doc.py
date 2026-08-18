@@ -165,6 +165,8 @@ def build() -> Path:
         ("Outreach drafts written", str(drafts)),
         ("Drafts passing the evidence check", f"{clean} of {drafts}"),
         ("Total API cost", "about $11"),
+        ("Cost per qualified lead, researched and drafted", "$0.42"),
+        ("Equivalent manual effort", "about 2 working days"),
         ("Cost of a full rerun", "$0, served from cache"),
     ]))
 
@@ -178,6 +180,14 @@ def build() -> Path:
         "them a different message: it leads on a technical comparison and "
         "closes with <i>no need to jump on a call</i>, rather than asking for "
         "a meeting it will not get.", S["b"]))
+
+    a(Paragraph(
+        "Researching one company by hand, checking fit, finding the decision "
+        "maker and writing a personalized note runs 30 to 45 minutes. This does "
+        "not replace that person: it does the research and the first draft and "
+        "hands over a reviewable queue with the evidence attached, so the time "
+        "goes into judgement and conversation instead of tab-switching. Nothing "
+        "sends itself.", S["b"]))
 
     a(Paragraph("HOW THE WORK IS SPLIT", S["eyebrow"]))
     a(stage_table([

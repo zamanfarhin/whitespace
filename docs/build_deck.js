@@ -53,12 +53,13 @@ function title(s, t, y, size, color) {
     color: "C9CDD2", lineSpacing: 24, margin: 0,
   });
 
-  const facts = [["$11", "one full run"], ["$0", "every rerun"], ["6", "agents"]];
+  const facts = [["$0.42", "per qualified lead"], ["26", "with drafted email"],
+                 ["~2 days", "of manual work"]];
   facts.forEach(([v, k], i) => {
-    const x = M + i * 1.95;
-    s.addText(v, { x, y: 5.85, w: 1.8, h: 0.5, fontFace: "Courier New",
-                   fontSize: 30, color: WHITE, margin: 0 });
-    s.addText(k, { x, y: 6.35, w: 1.8, h: 0.3, fontFace: "Courier New",
+    const x = M + i * 2.55;
+    s.addText(v, { x, y: 5.85, w: 2.3, h: 0.5, fontFace: "Courier New",
+                   fontSize: 28, color: WHITE, margin: 0 });
+    s.addText(k, { x, y: 6.35, w: 2.3, h: 0.3, fontFace: "Courier New",
                    fontSize: 10.5, color: INK3, charSpacing: 1.2, margin: 0 });
   });
   s.addNotes("Tedlar is a protective film for outdoor graphics. The sales team's problem is who to call. This automates finding, qualifying, and writing to them.");
@@ -141,6 +142,50 @@ function title(s, t, y, size, color) {
     x: M, y: 5.75, w: 11.6, h: 0.8, fontFace: "Arial", fontSize: 15,
     color: INK, lineSpacing: 20, margin: 0 });
   s.addNotes("This is the argument for two axes. Fit alone cannot tell an open account from one a competitor already owns, and those need different sales motions.");
+}
+
+/* ------------------------------------------------------ 3b: the output */
+{
+  const s = slide(WHITE);
+  eyebrow(s, "what the agent actually writes", 0.55);
+  title(s, "Each signal produces a different opening line", 0.9, 31);
+
+  const mails = [
+    ["INCUMBENT ABSENCE", "ORAFOL Americas",
+     "\u201cORAFOL\u2019s laminating film line for outdoor graphics caught my "
+     + "attention, especially since I couldn\u2019t find a named protective "
+     + "overlaminate partner in your public materials.\u201d"],
+    ["DURABILITY GAP", "Quality Media",
+     "\u201cYour wrap films are rated for 12-year durability. The gap between a "
+     + "good overlaminate and a great one shows up in gloss retention after year "
+     + "eight, not in the first-year data sheet.\u201d"],
+    ["DISPLACEMENT", "3M Commercial Graphics",
+     "\u201cThe UV ceiling of acrylic overlaminates versus PVF is worth a look. "
+     + "\u2026 No need to jump on a call, just let me know if useful.\u201d"],
+  ];
+  mails.forEach(([sig, who, body], i) => {
+    const x = M + i * 3.95;
+    s.addShape(p.ShapeType.rect, { x, y: 1.95, w: 3.6, h: 3.55,
+                                   fill: { color: PAPER }, line: { color: RULE, width: 0.75 } });
+    s.addText(sig, { x: x + 0.28, y: 2.18, w: 3.1, h: 0.3, fontFace: "Courier New",
+                     fontSize: 9.5, color: UV, charSpacing: 1.2, margin: 0 });
+    s.addText(who, { x: x + 0.28, y: 2.5, w: 3.1, h: 0.32, fontFace: "Arial",
+                     fontSize: 15, bold: true, color: INK, margin: 0 });
+    s.addText(body, { x: x + 0.28, y: 2.92, w: 3.05, h: 2.4, fontFace: "Arial",
+                      fontSize: 12, color: INK2, lineSpacing: 16.5, margin: 0 });
+  });
+
+  s.addText(
+    "None of these were templated. Each opening comes from a signal found during "
+    + "enrichment, and every claim traces to a source URL a rep can click.", {
+    x: M, y: 5.75, w: 11.5, h: 0.5, fontFace: "Arial", fontSize: 14.5,
+    color: INK, lineSpacing: 20, margin: 0 });
+  s.addText(
+    "A rep opens a queue of these, edits or approves, and sends. The system does "
+    + "the research and the first draft; the judgement stays human.", {
+    x: M, y: 6.35, w: 11.5, h: 0.5, fontFace: "Arial", fontSize: 13,
+    italic: true, color: INK3, lineSpacing: 18, margin: 0 });
+  s.addNotes("The leverage signal is not just a score, it decides what the first sentence of the email says. That is the difference between personalization and mail merge.");
 }
 
 /* ------------------------------------------------------------------ 4 */
