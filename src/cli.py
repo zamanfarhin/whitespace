@@ -83,7 +83,7 @@ async def run_sourcing(offline: bool, snapshot: bool) -> tuple[list, RunStats]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(prog="whitespace")
-    parser.add_argument("--version", action="version", version="whitespace v13")
+    parser.add_argument("--version", action="version", version="whitespace v14")
     sub = parser.add_subparsers(dest="command", required=True)
     src = sub.add_parser("source", help="fetch exhibitor lists")
     src.add_argument("--offline", action="store_true", help="read fixtures, no network")

@@ -17,7 +17,7 @@ Built as a technical case study. DuPont Tedlar is the test customer.
 | Enriched with sourced firmographics | 116 |
 | Qualified after rubric scoring | 26 |
 | Disqualified with a stated reason | 52 |
-| Named decision makers found on public pages | see dashboard |
+| Named decision makers found, on public pages | 12 of 26 qualified |
 | Outreach drafts written and verified | 26 |
 | Total API cost | about $11 |
 | Cost of a full rerun | $0, served from cache |
@@ -132,8 +132,17 @@ a rep without one still has a name and a title.
 
 ## What this does not do
 
-Named contacts are found for some companies and not others, and the system
-never invents one. An empty contact is a correct answer.
+Named contacts are found for 12 of the 26 qualified leads, and the system
+never invents the rest. An empty contact is a correct answer, and a
+plausible fabricated one is the most damaging output this could produce,
+because a rep would act on it.
+
+Association member directories were evaluated as a second source type,
+since the brief asks about associations as well as events. ISA's company
+directory sits inside a members-only community portal and companies must
+opt in to appear, so it is not a public source. Exhibitor lists remain the
+only public route into this industry, which is why the pipeline reads them
+rather than membership rolls.
 
 Leverage scores carry lower confidence than fit scores by design. Finding no
 named film partner is weak evidence, since plenty of companies never publish

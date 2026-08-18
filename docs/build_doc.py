@@ -161,7 +161,7 @@ def build() -> Path:
         ("Enriched with sourced firmographics", "116 of 120"),
         ("Qualified after rubric scoring", str(q)),
         ("Disqualified with a stated reason", str(dq)),
-        ("Companies with a named decision maker", str(people)),
+        ("Qualified leads with a named decision maker", f"12 of {q}"),
         ("Outreach drafts written", str(drafts)),
         ("Drafts passing the evidence check", f"{clean} of {drafts}"),
         ("Total API cost", "about $11"),
@@ -326,10 +326,13 @@ def build() -> Path:
 
     a(Paragraph("LIMITS", S["eyebrow"]))
     a(Paragraph(
-        "Named contacts are found for some companies and not others, and the "
-        "system never invents one. An empty contact is a correct answer, and a "
-        "plausible fabricated one is the most damaging output this system could "
-        "produce, because a rep would act on it.", S["small"]))
+        "Named contacts were found for 12 of the 26 qualified leads, and the "
+        "system never invents the rest. An empty contact is a correct answer, "
+        "and a plausible fabricated one is the most damaging output this could "
+        "produce, because a rep would act on it. Association member "
+        "directories were evaluated as a second source type: ISA's is inside a "
+        "members-only portal that companies must opt into, so exhibitor lists "
+        "remain the only public route into this industry.", S["small"]))
     a(Paragraph(
         "India was selected as a second region on data availability and then "
         "dropped as a source. The directories exist and are public, but render "

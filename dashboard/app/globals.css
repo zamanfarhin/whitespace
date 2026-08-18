@@ -332,3 +332,21 @@ input[type=range] {
 @media (prefers-reduced-motion: reduce) {
   .ring, .bar-fill { transition: none; }
 }
+
+/* event filter. The brief lists the dashboard fields as event, company,
+   rationale, outreach, in that order, so the event a lead came from is a
+   first-class control rather than a line buried in the evidence list. */
+
+.chip.filter {
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--data);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  color: var(--ink-2);
+}
+.chip.filter:hover { border-color: var(--ink-2); color: var(--ink); }
+.chip.filter.on { border-color: var(--uv); background: var(--uv-soft); color: var(--uv); }
+.chip.event { border-color: var(--ink); background: var(--ink); color: #fff; }

@@ -18,6 +18,7 @@ export default function Page() {
   const [error, setError] = useState(null);
   const [weights, setWeights] = useState(null);
   const [selected, setSelected] = useState(0);
+  const [eventFilter, setEventFilter] = useState(null);
 
   useEffect(() => {
     fetch("leads.json")
@@ -45,14 +46,27 @@ export default function Page() {
     return base;
   }, [leads]);
 
+  const events = useMemo(() => {
+    const seen = new Map();
+    for (const l of leads || []) {
+      for (const a of l.company.appearances || []) {
+        seen.set(a.event_slug, (seen.get(a.event_slug) || 0) + 1);
+      }
+    }
+    return [...seen.entries()].sort((a, b) => b[1] - a[1]);
+  }, [leads]);
+
   const points = useMemo(() => {
     if (!leads) return [];
-    return leads.map((lead, i) => {
-      const fit = scoreOf(lead.qualification.components, weights);
-      const lev = scoreOf(lead.leverage?.components, null);
-      return { i, lead, fit, lev, coverage: coverageOf(lead) };
-    }).sort((a, b) => b.fit - a.fit);
-  }, [leads, weights]);
+    return leads
+      .filter((lead) => !eventFilter
+        || (lead.company.appearances || []).some((a) => a.event_slug === eventFilter))
+      .map((lead, i) => {
+        const fit = scoreOf(lead.qualification.components, weights);
+        const lev = scoreOf(lead.leverage?.components, null);
+        return { i, lead, fit, lev, coverage: coverageOf(lead) };
+      }).sort((a, b) => b.fit - a.fit);
+  }, [leads, weights, eventFilter]);
 
   if (error) {
     return (
@@ -96,6 +110,21 @@ export default function Page() {
 
       <div className="shell">
         <section className="left">
+          <p className="eyebrow">source event</p>
+          <div className="chips" style={{ marginBottom: 16 }}>
+            <button className={`chip filter${eventFilter === null ? " on" : ""}`}
+                    onClick={() => { setEventFilter(null); setSelected(0); }}>
+              all events · {leads.length}
+            </button>
+            {events.map(([slug, n]) => (
+              <button key={slug}
+                      className={`chip filter${eventFilter === slug ? " on" : ""}`}
+                      onClick={() => { setEventFilter(slug); setSelected(0); }}>
+                {slug} · {n}
+              </button>
+            ))}
+          </div>
+
           <p className="eyebrow">fit against leverage</p>
           <h2 className="section">Who to call, and who you can actually win</h2>
           <p style={{ fontSize: 13.5, color: "var(--ink-2)", margin: "6px 0 14px", maxWidth: 520 }}>
@@ -210,6 +239,9 @@ function Detail({ p }) {
       <h1 className="lead-name">{c.name}</h1>
 
       <div className="chips">
+        {shows.map((slug) => (
+          <span key={slug} className="chip event">{slug}</span>
+        ))}
         <span className="chip tier">tier {tierOf(fit)}</span>
         <span className="chip motion">{quadrantOf(fit, lev)}</span>
         <span className="chip">fit {fit.toFixed(0)}</span>
